@@ -136,7 +136,7 @@ Paste the following script (update PROJECT_DIR to your actual folder path):
 #!/bin/bash
 
 # CONFIGURATION
-PROJECT_DIR="$HOME/Projects/paisa-telegram-bot"
+PROJECT_DIR="$HOME/Projects/TelLedger"
 
 # CLEANUP FUNCTION
 cleanup() {
