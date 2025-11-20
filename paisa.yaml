@@ -1,0 +1,43 @@
+# ==========================================
+# PAISA CONFIGURATION (TEMPLATE)
+# ==========================================
+
+# File Paths (Relative to the current folder)
+journal_path: finance.ledger
+db_path: paisa.db
+
+# Localization Settings
+# Change 'USD' and 'en-US' to your local currency and region
+default_currency: USD
+locale: en-US
+time_zone: UTC
+
+# Display Settings
+# Column 44 aligns perfectly with the Telegram Bot's output format
+amount_alignment_column: 44
+display_precision: 2  # Set to 0 if your currency doesn't use decimals (e.g., IDR, JPY)
+
+# Fiscal Year Settings
+financial_year_starting_month: 1
+week_starting_day: 0  # 0 = Sunday, 1 = Monday
+
+# Application Features
+sheets_directory: ""
+readonly: false
+strict: "no"
+
+# Budgeting Behavior
+budget:
+  rollover: "yes"
+
+# ==========================================
+# EMPTY DATA STRUCTURES (CLEAN SLATE)
+# ==========================================
+commodities: []
+import_templates: []
+accounts: []
+goals: {}
+user_accounts: []
+credit_cards: []
+allocation_targets: []
+schedule_al: []

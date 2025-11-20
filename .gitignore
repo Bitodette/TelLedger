@@ -1,0 +1,10 @@
+Bot/venv/
+venv/
+__pycache__/
+*.pyc
+paisa.db
+*.backup*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
