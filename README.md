@@ -33,8 +33,8 @@ _Make sure you can run `paisa --version` in your terminal before proceeding._
 1.  **Clone the repository**
 
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/finance-bot.git](https://github.com/YOUR_USERNAME/finance-bot.git)
-    cd finance-bot
+    git clone https://github.com/Bitodette/TelLedger.git
+    cd TelLedger
     ```
 
 2.  **Set up Virtual Environment** (Recommended)
@@ -116,3 +116,70 @@ python finance_bot.py
 ## 📄 License
 
 This project is licensed under the MIT License.
+
+---
+
+## 🐧 Pro Tip: One-Command Launch (Linux)
+
+Instead of opening two terminals manually, you can create a simple script to launch both the Telegram Bot and Paisa Dashboard simultaneously.
+
+**Create a script file in your local bin directory:**
+
+```bash
+nano ~/.local/bin/finance
+```
+
+(You can name the file whatever you want, e.g., money, duit, etc.)
+
+**Paste the following script:** (Make sure to update PROJECT_DIR to your actual folder path)
+
+```bash
+#!/bin/bash
+
+# --- CONFIGURATION ---
+# Update this path to where you cloned the repo
+PROJECT_DIR="$HOME/Projects/paisa-telegram-bot"
+
+# --- CLEANUP FUNCTION ---
+# Kills Paisa background process when you press Ctrl+C
+cleanup() {
+    echo ""
+    echo "🛑 Shutting down Paisa & Bot..."
+    if [[ -n "$PAISA_PID" ]]; then
+        kill "$PAISA_PID" 2>/dev/null
+    fi
+    exit
+}
+trap cleanup SIGINT
+
+# --- 1. START PAISA (BACKGROUND) ---
+cd "$PROJECT_DIR" || { echo "Directory not found"; exit 1; }
+
+echo "🚀 Starting Finance System..."
+echo "📊 Dashboard: http://localhost:7500"
+
+# Run Paisa silently in background
+paisa serve --config paisa.yaml > /dev/null 2>&1 &
+PAISA_PID=$!
+
+# --- 2. START BOT (FOREGROUND) ---
+echo "🤖 Bot is active! Waiting for messages..."
+echo "❌ Press Ctrl+C to stop."
+echo "---------------------------------------"
+
+# Activate venv and run bot
+source venv/bin/activate
+python finance_bot.py
+```
+
+**Make it executable:**
+
+```bash
+chmod +x ~/.local/bin/finance
+```
+
+**Usage:** Now, you can simply type this command from any terminal window to start your entire finance system:
+
+```bash
+finance
+```
