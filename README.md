@@ -1,32 +1,32 @@
-# 💰 Telegram Finance Bot (Ledger/Paisa)
+# Telegram Finance Bot (Ledger/Paisa)
 
 A privacy-focused Telegram bot designed to streamline personal finance tracking. It records expenses and income directly into a local **Ledger** text file (`.ledger` / `.journal`), making it fully compatible with **[Paisa](https://paisa.fyi)**.
 
-## ✨ Features
+## Features
 
-- **🔒 100% Private & Local:** Data is stored in a plain text file on your own machine. No third-party cloud storage.
-- **🚀 Instant Input:** Record transactions via Telegram chat instantly. Supports offline/pending messages (syncs when the bot comes online).
-- **🔄 Auto-Sync:** Automatically triggers Paisa to refresh its database (`paisa update`) upon recording a transaction.
-- **💸 Dual Payment Mode:**
-  - **Cash Mode:** deducts from `Assets:Wallet:Cash`.
-  - **Digital Mode:** deducts from `Assets:Bank:Main` (QRIS/Transfer).
-- **🛡️ Security:** Restricts access to a specific Telegram User ID.
+- 100% Private & Local: Data is stored in a plain text file on your own machine. No third-party cloud storage.
+- Instant Input: Record transactions via Telegram chat instantly. Supports offline/pending messages (syncs when the bot comes online).
+- Auto-Sync: Automatically triggers Paisa to refresh its database (`paisa update`) upon recording a transaction.
+- Dual Payment Mode:
+  - Cash Mode: deducts from `Assets:Wallet:Cash`.
+  - Digital Mode: deducts from `Assets:Bank:Main` (QRIS/Transfer).
+- Security: Restricts access to a specific Telegram User ID.
 
-## 🛠️ Prerequisites
+## Prerequisites
 
 - Python 3.10+
 - A Telegram Bot Token (from [@BotFather](https://t.me/BotFather))
-- **[Paisa](https://paisa.fyi)** installed and added to your system PATH.
+- [Paisa](https://paisa.fyi) installed and added to your system PATH.
 
-## 📦 Installation
+## Installation
 
 ### 1. Install Paisa (Visualization Dashboard)
 
 This bot requires `paisa` to be installed to trigger the auto-sync feature.
 
-👉 **[Follow the Official Installation Guide Here](https://paisa.fyi/getting-started/installation/#__tabbed_1_1)**
+[Follow the Official Installation Guide Here](https://paisa.fyi/getting-started/installation/#__tabbed_1_1)
 
-_Make sure you can run `paisa --version` in your terminal before proceeding._
+Make sure you can run `paisa --version` in your terminal before proceeding.
 
 ### 2. Setup the Bot
 
@@ -53,11 +53,12 @@ _Make sure you can run `paisa --version` in your terminal before proceeding._
 
 4.  **Initialize Ledger File**
     Copy the sample ledger to create your real data file:
+
     ```bash
     cp sample.ledger finance.ledger
     ```
 
-## ⚙️ Configuration
+## Configuration
 
 Open `finance_bot.py` and edit the **Configuration Section** at the top:
 
@@ -76,7 +77,7 @@ LEDGER_FILE = "finance.ledger"
 PAISA_CONFIG_FILE = "paisa.yaml"
 ```
 
-## 🚀 Usage
+## Usage
 
 Run the bot:
 
@@ -84,9 +85,9 @@ Run the bot:
 python finance_bot.py
 ```
 
-## 🤖 Bot Commands
+## Bot Commands
 
-### 💵 Cash Expenses (Source: Assets:Wallet:Cash)
+### Cash Expenses (Source: Assets:Wallet:Cash)
 
     /food [amount] [desc] - Meals, Drinks
     /transport [amount] [desc] - Fuel, Parking
@@ -94,7 +95,7 @@ python finance_bot.py
     /health [amount] [desc] - Medical expenses
     /other [amount] [desc] - Miscellaneous
 
-### 💳 Digital/Bank Expenses (Source: Assets:Bank:Main)
+### Digital/Bank Expenses (Source: Assets:Bank:Main)
 
     /qfood [amount] [desc] - Paid via QRIS/Transfer
     /qtransport [amount] [desc] - Ride-hailing apps
@@ -102,7 +103,7 @@ python finance_bot.py
     /qbill [amount] [desc] - Utilities, Data Plans
     /qsub [amount] [desc] - Subscriptions
 
-### 💰 Income & Transfers
+### Income & Transfers
 
     /income [amount] [desc] - Salary (to Bank)
     /gift [amount] [desc] - Cash Gift (to Wallet)
@@ -111,40 +112,36 @@ python finance_bot.py
 **Example**
 
     You: /qfood 25000 Burger King
-    Bot: ✅ Recorded: EXPENSE (BANK) 📝 Burger King 💰 25000 📂 Expenses:Food
+    Bot: Recorded: EXPENSE (BANK) - Burger King, Amount: 25000, Category: Expenses:Food
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
 
 ---
 
-## 🐧 Pro Tip: One-Command Launch (Linux)
+### Pro Tip: One-Command Launch (Linux)
 
-Instead of opening two terminals manually, you can create a simple script to launch both the Telegram Bot and Paisa Dashboard simultaneously.
+You can create a simple script to launch both the Telegram Bot and Paisa Dashboard simultaneously.
 
-**Create a script file in your local bin directory:**
+Create a script file in your local bin directory:
 
 ```bash
 nano ~/.local/bin/finance
 ```
 
-(You can name the file whatever you want, e.g., money, duit, etc.)
-
-**Paste the following script:** (Make sure to update PROJECT_DIR to your actual folder path)
+Paste the following script (update PROJECT_DIR to your actual folder path):
 
 ```bash
 #!/bin/bash
 
-# --- CONFIGURATION ---
-# Update this path to where you cloned the repo
+# CONFIGURATION
 PROJECT_DIR="$HOME/Projects/paisa-telegram-bot"
 
-# --- CLEANUP FUNCTION ---
-# Kills Paisa background process when you press Ctrl+C
+# CLEANUP FUNCTION
 cleanup() {
     echo ""
-    echo "🛑 Shutting down Paisa & Bot..."
+    echo "Shutting down Paisa and Bot..."
     if [[ -n "$PAISA_PID" ]]; then
         kill "$PAISA_PID" 2>/dev/null
     fi
@@ -152,19 +149,19 @@ cleanup() {
 }
 trap cleanup SIGINT
 
-# --- 1. START PAISA (BACKGROUND) ---
+# 1. START PAISA (BACKGROUND)
 cd "$PROJECT_DIR" || { echo "Directory not found"; exit 1; }
 
-echo "🚀 Starting Finance System..."
-echo "📊 Dashboard: http://localhost:7500"
+echo "Starting Finance System..."
+echo "Dashboard: http://localhost:7500"
 
 # Run Paisa silently in background
 paisa serve --config paisa.yaml > /dev/null 2>&1 &
 PAISA_PID=$!
 
-# --- 2. START BOT (FOREGROUND) ---
-echo "🤖 Bot is active! Waiting for messages..."
-echo "❌ Press Ctrl+C to stop."
+# 2. START BOT (FOREGROUND)
+echo "Bot is active! Waiting for messages..."
+echo "Press Ctrl+C to stop."
 echo "---------------------------------------"
 
 # Activate venv and run bot
@@ -172,13 +169,13 @@ source venv/bin/activate
 python finance_bot.py
 ```
 
-**Make it executable:**
+Make it executable:
 
 ```bash
 chmod +x ~/.local/bin/finance
 ```
 
-**Usage:** Now, you can simply type this command from any terminal window to start your entire finance system:
+Usage: Now, you can simply type this command from any terminal window to start your entire finance system:
 
 ```bash
 finance
